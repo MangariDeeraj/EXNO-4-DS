@@ -101,5 +101,173 @@ df_null_sum=df.isnull().sum()
 df_null_sum
 ```
 ![image](https://github.com/user-attachments/assets/730a0f69-63c8-4f70-a6a1-715c6b8d6f1c)
+```
+categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
+df[categorical_columns] = df[categorical_columns].astype('category')
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/ee951e48-cbeb-48a5-8126-2101af59229e)
+```
+df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/70de7e69-e6a8-40af-8127-f1681cc87f04)
+```
+X = df.drop(columns=['SalStat'])
+y = df['SalStat']
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+```
+![image](https://github.com/user-attachments/assets/3cbcc7e9-c768-45ea-9df2-47a45125b479)
+```
+y_pred = rf.predict(X_test)
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model accuracy using selected features: {accuracy}")
+```
+![image](https://github.com/user-attachments/assets/d982a16a-f628-4ad3-b4f3-b4504602d450)
+# FILTER METHOD:
+```
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, chi2, f_classif
+categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
+df[categorical_columns] = df[categorical_columns].astype('category')
+df[categorical_columns]
 
-# RESULT:    # INCLUDE YOUR RESULT HERE
+```
+![image](https://github.com/user-attachments/assets/2c6b9e52-05e3-4486-92e0-1631cd9c9da3)
+```
+df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/7ffe139f-0976-48ff-bdbc-f3c80b25ae13)
+```
+X = df.drop(columns=['SalStat'])
+y = df['SalStat']
+k_chi2 = 6
+selector_chi2 = SelectKBest(score_func=chi2, k=k_chi2)
+X_chi2 = selector_chi2.fit_transform(X, y)
+selected_features_chi2 = X.columns[selector_chi2.get_support()]
+print("Selected features using chi-square test:")
+print(selected_features_chi2)
+```
+![image](https://github.com/user-attachments/assets/3e99615e-c6d7-4379-bd21-4489d68db467)
+```
+selected_features = ['age', 'maritalstatus', 'relationship', 'capitalgain', 'capitalloss',
+'hoursperweek']
+X = df[selected_features]
+y = df['SalStat']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+```
+![image](https://github.com/user-attachments/assets/82b172c9-77ea-4ea1-b02a-36538075c286)
+```
+y_pred = rf.predict(X_test)
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model accuracy using selected features: {accuracy}")
+```
+![image](https://github.com/user-attachments/assets/4172fa3e-8fa0-4eaf-9f93-e5f7ffe30fdb)
+# fisher square
+```
+!pip install skfeature-chappers
+```
+![image](https://github.com/user-attachments/assets/dbae4792-dc5a-4ea3-8d17-0636b5107125)
+```
+# @title
+import numpy as np
+import pandas as pd
+from skfeature.function.similarity_based import fisher_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# @title
+categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
+df[categorical_columns] = df[categorical_columns].astype('category')
+
+# @title
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/d0e04f12-45a1-4d45-b2ac-36a8307d78a2)
+```
+# @title
+df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
+# @title
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/d3a4544f-c72a-4d9c-8ceb-91eaaafa7c99)
+```
+
+
+```
+# WRAPPER METHOD:
+```
+import pandas as pd
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+
+# Assuming your data is in 'income(1) (1).csv'
+df = pd.read_csv("income(1) (1).csv")  # This line loads your data into df
+
+categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
+df[categorical_columns] = df[categorical_columns].astype('category')
+
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/e448d9e3-28fb-43a7-a943-fee613317179)
+```
+import pandas as pd
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+
+# Assuming your data is in 'income(1) (1).csv'
+df = pd.read_csv("income(1) (1).csv")  # This line loads your data into df
+
+categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
+# Convert categorical columns to 'category' dtype
+for col in categorical_columns:
+    df[col] = df[col].astype('category')
+
+# Now you can access .cat.codes
+df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
+df[categorical_columns]
+```
+![image](https://github.com/user-attachments/assets/6672bd6b-6a6c-4444-8dd0-4d6725266340)
+```
+X = df.drop(columns=['SalStat'])
+y = df['SalStat']
+logreg = LogisticRegression()
+n_features_to_select = 6
+rfe = RFE(estimator=logreg, n_features_to_select=n_features_to_select)
+rfe.fit(X, y)
+```
+![image](https://github.com/user-attachments/assets/84a63400-6e99-4f78-b753-cd1d07887050)
+```
+selected_features = X.columns[rfe.support_]
+print("Selected features using RFE:")
+print(selected_features)
+```
+![image](https://github.com/user-attachments/assets/53130e7d-73a3-437a-94f4-e06c2a25f5ff)
+
+```
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+X_selected = X[selected_features]
+X_train, X_test, y_train, y_test = train_test_split(X_selected, y, test_size=0.3, random_state=42)
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model accuracy using Fisher Score selected features: {accuracy}")
+```
+![image](https://github.com/user-attachments/assets/d235104a-e895-4422-b44e-334030a32e82)
+
+# RESULT:  
+Thus, Feature selection and Feature scaling has been used on thegiven dataset.
