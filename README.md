@@ -187,14 +187,15 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# @title
+
 categorical_columns = ['JobType', 'EdType', 'maritalstatus', 'occupation', 'relationship', 'race', 'gender', 'nativecountry']
 df[categorical_columns] = df[categorical_columns].astype('category')
 
 # @title
 df[categorical_columns]
 ```
-![image](https://github.com/user-attachments/assets/d0e04f12-45a1-4d45-b2ac-36a8307d78a2)
+![image](https://github.com/user-attachments/assets/972843f5-a7c5-436a-aac6-5548fb7415e2)
+
 ```
 # @title
 df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
